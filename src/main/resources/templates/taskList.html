@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>To do List!</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />
+    <form align="right" style="vertical-align: top;" th:action="@{/logout}" method="post">
+        <input type="submit" value="Sign Out"/>
+    </form>
+
+</head>
+<body>
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <h1> Tasks </h1>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6">
+            <table class="table">
+                <thead>
+                <tr>
+                    <th> User Name </th>
+                    <th> Task Name </th>
+                    <th> Description </th>
+                    <th> Last Updated </th>
+                    <th> Status </th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:if="${tasks.empty}">
+                    <td colspan="2"> No Tasks Available </td>
+                </tr>
+                <tr th:each="task : ${tasks}">
+                    <td><span th:text="${#authentication.getName()}"> User Name </span></td>
+                    <td><span th:text="${task.name}"> Task Name </span></td>
+                    <td><span th:text="${task.description}"> Description </span></td>
+                    <td><span th:text="${task.lastUpdated}"> Last Updated </span></td>
+                    <td><span th:text="${task.status}"> Status </span></td>
+                    <td>
+                        <form th:action="@{/todos/api/task/edit}" method="get">
+                            <input type="hidden" name="id" th:value="${task.taskId}" />
+                            <input type="submit" value="Edit" class="btn btn-primary" />
+                        </form>
+                    </td>
+                    <td>
+                        <form th:action="@{/todos/api/task/delete}" method="post">
+                            <input type="hidden" name="id" th:value="${task.taskId}" />
+                            <input type="submit" value="Delete" class="btn btn-danger" />
+                        </form>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="col-md-6">
+            <a class="btn btn-success" href="#" th:href="@{/todos/api/task/add}"> Add </a>
+        </div>
+    </div>
+</div>
+</body>
+</html>
