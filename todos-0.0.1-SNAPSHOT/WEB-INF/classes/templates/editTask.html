@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title>Edit Tasks</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"/>
+</head>
+<body>
+<div class="container">
+  <div class="row">
+    <div class="col-md-12">
+      <h1> Add Tasks </h1>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-6">
+      <a class="btn btn-info" href="#" th:href="@{/todos/api/task}"> Back to Task List </a>
+
+      <form action="#" class="form-horizontal" th:action="@{/todos/api/task/update}" th:object="${taskToEdit}" method="post">
+        <span class="pull-right">
+			<input type="submit" id="submitButton" class="btn btn-success" th:value="Save">
+		</span>
+
+        <br>
+        <br>
+        <input type="hidden" th:field="*{taskId}" name="id" th:value="${taskToEdit.taskId}" />
+        <div>
+          <label for="name">User Name</label>
+          <input type="text" th:value="${#authentication.getName()}" id="username" placeholder="Username" readonly>
+        </div>
+        <br>
+        <div>
+          <label for="name">Name</label>
+          <input type="text" th:field="*{name}" id="name" placeholder="Name" th:value="${taskToEdit.getName()}" required>
+        </div>
+        <br>
+        <div>
+          <label for="name">Description</label>
+          <input type="text" th:field="*{description}" id="description" placeholder="description" th:value="${taskToEdit.getDescription()}">
+        </div>
+        <br>
+        <div>
+          <label for="name">Last Updated</label>
+          <input type="text" th:field="*{lastUpdated}" id="lastUpdated" placeholder="lastUpdated" th:value="${taskToEdit.getLastUpdated()}">
+        </div>
+        <br>
+        <div>
+          <label for="name">Status</label>
+          <select class="form-select selectpicker show-tick" th:field="*{status}" id="status" placeholder="status" th:value="${taskToEdit.getStatus()}" required>
+            <option th:each="status : ${T(com.project.todos.utils.Status).values()}" th:value="${status}" th:text="${status}"></option>
+          </select>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+</body>
+</html>
